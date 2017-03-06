@@ -1,0 +1,12 @@
+{
+  "name": "UnipaDestroyer",
+  "version": "0.0.1",
+  "manifest_version": 2,
+  "content_scripts": [{
+    "matches": [ "https://portal.sa.dendai.ac.jp/*" ],
+    "js": [ "main.js" ]
+  }],
+  "permissions": [
+    "storage"
+  ]
+}
