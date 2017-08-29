@@ -27,7 +27,7 @@ function run(){
         }
     }
 
-    if (masterSubjectArray.length != 0) {
+    if (masterSubjectArray.length !== 0) {
         chromeStorage["masterSubject"] = masterSubjectArray;
         chrome.storage.local.set(chromeStorage, function () {
             console.log("save!")
