@@ -4,7 +4,7 @@
   "manifest_version": 2,
   "content_scripts": [{
     "matches": [ "https://portal.sa.dendai.ac.jp/*" ],
-    "js": [ "main.js" ]
+    "js": [ "script/jquery-3.2.1.min.js", "main.js" ]
   }],
   "permissions": [
     "storage"
