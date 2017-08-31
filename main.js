@@ -16,7 +16,7 @@ function run() {
                         risyuu.innerText = 'Destroy';
                         risyuu.title = subject[1];
                     } else {
-                        risyuu.innerText = subject[1] + subject[2];
+                        risyuu.innerText = subject[1] + subject[2] + subject[3];
                     }
                 });
                 let kamokuSorted = kamokuList.sort(function (a, b) {
