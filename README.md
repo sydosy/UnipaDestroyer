@@ -20,3 +20,6 @@
 
 ## 使用しているライブラリ
 jQuery
+
+## 参考文献
+[listのn番目以降を隠したり表示したりするjQuery（gist: 4168815 をもうちょっとかっこよくした）](https://gist.github.com/tmitz/4173232)
