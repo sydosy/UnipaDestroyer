@@ -6,8 +6,8 @@ function run() {
         function (masterSubjects) {
             let timetable = $('.koma');
             timetable.each(function () {
-                let kamoku = $(this).find('a');
-                kamoku.each(function (i, risyuu) {
+                let kamokuList = $(this).find('a');
+                kamokuList.each(function (i, risyuu) {
                     let tmp = risyuu.innerText.replace(/　/g, '');
                     const nbsp = String.fromCharCode(160);
                     tmp = tmp.replace(nbsp, ' ');
@@ -19,14 +19,33 @@ function run() {
                         risyuu.innerText = subject[1] + subject[2];
                     }
                 });
-                let result = kamoku.sort(function (a, b) {
-                    return ($(a).text() < $(b).text())?1:-1;
+                let kamokuSorted = kamokuList.sort(function (a, b) {
+                    return ($(a).text() < $(b).text()) ? 1 : -1;
                 });
-                kamoku.parent().each(function (i) {
+                kamokuList.parent().each(function (i) {
                     $(this).empty();
-                    $(this).append(result[i]);
-                })
+                    $(this).append(kamokuSorted[i]);
+                });
+                rollover(kamokuList);
             });
+
+            //1限、2限などのセルを2行分に変更
+            $('.jigen').each(function () {
+                $(this).attr("rowSpan", 2);
+            });
+            //rollover用のボタン生成
+            $('.tujoHeight').after($('<tr></tr>').append($('<td></td>', {
+                colSpan: '6'
+            }).append($('<button></button>', {
+                class: 'roll-button',
+                type: 'button',
+                text: '▼'
+            }))));
+
+            let trigger = $('.roll-button');
+            $(trigger).on('click', function () {
+                $(this).parent().parent().prev('tr').find('.rolloverKamoku').toggle();
+            })
         }
     );
 
@@ -47,5 +66,18 @@ function run() {
         chrome.storage.local.set(chromeStorage, function () {
             console.log('save!')
         });
+    }
+}
+
+function rollover(kamokuList) {
+    const n = 5;
+    if (kamokuList.length > n) {
+        let hiddenKamoku = kamokuList.slice(n);
+        let linkMarks = hiddenKamoku.parent();
+        let span = linkMarks.parent();
+        linkMarks.remove();
+        span.append($('<div></div>', {
+            class: 'rolloverKamoku'
+        }).append(linkMarks).hide());
     }
 }
