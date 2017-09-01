@@ -6,26 +6,15 @@ function run() {
         function (masterSubjects) {
             let timetable = $('.koma');
             timetable.each(function () {
-                let kamokuList = $(this).find('a');
-                kamokuList.each(function (i, risyuu) {
-                    let tmp = risyuu.innerText.replace(/　/g, '');
-                    const nbsp = String.fromCharCode(160);
-                    tmp = tmp.replace(nbsp, ' ');
-                    let subject = tmp.split(' ');
-                    if (masterSubjects.masterSubject.indexOf(subject[1]) >= 0) {
-                        risyuu.innerText = 'Destroy';
-                        risyuu.title = subject[1];
-                    } else {
-                        risyuu.innerText = subject[1] + subject[2] + subject[3];
-                    }
-                });
+                let kamokuList = $(this).find('div');
+                kamokuParse(kamokuList, masterSubjects);
                 let kamokuSorted = kamokuList.sort(function (a, b) {
                     return ($(a).text() < $(b).text()) ? 1 : -1;
                 });
-                kamokuList.parent().each(function (i) {
-                    $(this).empty();
-                    $(this).append(kamokuSorted[i]);
-                });
+
+                $(this).children().empty();
+                $(this).children().append(kamokuSorted);
+
                 rollover(kamokuList);
             });
 
@@ -69,15 +58,30 @@ function run() {
     }
 }
 
+function kamokuParse(kamokuList, masterSubjects) {
+    kamokuList.each(function () {
+        let kamoku = $(this).attr('class') === 'linkMark' ? $(this).find('a') : $(this);
+        let tmp = kamoku.text().replace(/　/g, '');
+        const nbsp = String.fromCharCode(160);
+        tmp = tmp.replace(nbsp, ' ');
+        let subject = tmp.split(' ');
+        if (masterSubjects.masterSubject.indexOf(subject[1]) >= 0) {
+            kamoku.text('Destroy');
+            kamoku.attr('title', subject[1]);
+        } else {
+            kamoku.text(subject[1] + subject[2] + subject[3]);
+        }
+    });
+}
+
 function rollover(kamokuList) {
     const n = 5;
     if (kamokuList.length > n) {
         let hiddenKamoku = kamokuList.slice(n);
-        let linkMarks = hiddenKamoku.parent();
-        let span = linkMarks.parent();
-        linkMarks.remove();
+        let span = hiddenKamoku.parent();
+        hiddenKamoku.remove();
         span.append($('<div></div>', {
             class: 'rolloverKamoku'
-        }).append(linkMarks).hide());
+        }).append(hiddenKamoku).hide());
     }
 }
