@@ -20,12 +20,13 @@ function run() {
                 hideSubject(subjectList);
             });
 
+            let hiddenLectures = $('.rolloverSubject').parent().parent().parent();
             //1限、2限などのセルを2行分に変更
-            $('.jigen').each(function () {
+            hiddenLectures.find('.jigen').each(function () {
                 $(this).attr('rowSpan', 2);
             });
             //rollover用のボタン生成
-            $('.tujoHeight').after($('<tr></tr>').append($('<td></td>', {
+            hiddenLectures.after($('<tr></tr>').append($('<td></td>', {
                 colSpan: '6'
             }).append($('<button></button>', {
                 class: 'rollButton',
