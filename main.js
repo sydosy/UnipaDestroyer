@@ -33,8 +33,15 @@ function run() {
                 type: 'button',
                 text: '▼'
             }))));
-
             rollover();
+
+            //Destroyの非表示用ボタン生成
+            $('#form1\\:labelOutLabel3').parent().after($('<td></td>').append($('<button></button>', {
+                id: 'hideDestroyButton',
+                type: 'button',
+                text: 'Destroyの表示・非表示'
+            })));
+            hideDestroy();
         }
     );
 
@@ -68,6 +75,7 @@ function subjectParse(kamokuList, masterSubjects) {
         if (masterSubjects.masterSubject.indexOf(subject[1]) >= 0) {
             kamoku.text('Destroy');
             kamoku.attr('title', subject[1]);
+            $(this).addClass('destroy');
         } else {
             kamoku.text(subject[1] + subject[2] + subject[3]);
         }
@@ -92,4 +100,10 @@ function rollover() {
     $('.rollButton').on('click', function () {
         $(this).parent().parent().prev('tr').find('.rolloverSubject').toggle();
     });
+}
+
+function hideDestroy() {
+    $('#hideDestroyButton').on('click', function () {
+        $('.destroy').toggle();
+    })
 }
